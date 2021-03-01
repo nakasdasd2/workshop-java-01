@@ -24,7 +24,7 @@ public class DemoServiceTest {
 
         assertThrows(RuntimeException.class, () -> {
             DemoService demoService = new DemoService();
-            demoService.setRandom(new RandomNormal());
+            demoService.setRandom(new Random6());
             String actualResult = demoService.generateData("parunyu");
         });
 
@@ -41,5 +41,10 @@ class Random5 extends Random {
     }
 }
 
-class RandomNormal extends Random {
+class Random6 extends Random {
+
+    @Override
+    public int nextInt(int bound) {
+        return 6;
+    }
 }
