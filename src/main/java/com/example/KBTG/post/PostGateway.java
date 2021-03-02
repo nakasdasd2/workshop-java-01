@@ -21,12 +21,12 @@ public class PostGateway {
         this.postApiUrl = postApiUrl;
     }
 
-    public Optional<com.example.kbtg.post.PostResponse> getPostById(int id) {
+    public Optional<PostResponse> getPostById(int id) {
         String url = String.format("%s/posts/%d", postApiUrl, id);
 
         try {
             return Optional.ofNullable(
-                    restTemplate.getForObject(url, com.example.kbtg.post.PostResponse.class));
+                    restTemplate.getForObject(url, PostResponse.class));
         } catch (RestClientException e) {
             return Optional.empty();
         }
