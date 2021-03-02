@@ -16,7 +16,7 @@ public class UserService {
     public UserResponse getInfo(int id) {
 
         try{
-            Optional<MyUser> user = userRepository.findById(1);
+            Optional<MyUser> user = userRepository.findById(id);
 
             return new UserResponse(user.get().getId(), user.get().getName(), user.get().getAge());
         }catch(Exception e){
