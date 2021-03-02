@@ -7,29 +7,25 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+
 @Service
 public class UserService {
-    @Autowired
+
+
     private UserRepository userRepository;
 
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public UserResponse getInfo(int id) {
-
-        try{
-            Optional<MyUser> user = userRepository.findById(id);
-
-            return new UserResponse(user.get().getId(), user.get().getName(), user.get().getAge());
-        }catch(Exception e){
-            throw new RuntimeException("User not found id="+ id);
-        }
-        /*
-        if(id <= 10) {
+        Optional<MyUser> user = userRepository.findById(id);
+        if(user.isPresent()) {
             // Success
-            return new UserResponse(id, "somkiat", 30);
+            return new UserResponse(id, user.get().getName(), user.get().getAge());
         }
-        */
-
         // Fail
-       // throw new RuntimeException("User not found id="+ id);
+        throw new UserNotFoundException("User not found id="+ id);
     }
 }
