@@ -1,5 +1,6 @@
 package com.example.KBTG.user;
 
+import com.example.KBTG.ErrorResponse;
 import com.example.KBTG.UserResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class UserControllerTest {
     public void not_found_id15() {
         try {
             // Act
-            UserResponse response
-                    = restTemplate.getForObject("/user/15", UserResponse.class);
+            ErrorResponse response
+                    = restTemplate.getForObject("/user/15", ErrorResponse.class);
             fail();
         }catch (Exception e) {
             assertEquals("User not found id=15", e.getMessage());
