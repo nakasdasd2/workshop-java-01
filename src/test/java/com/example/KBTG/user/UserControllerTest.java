@@ -1,13 +1,11 @@
 package com.example.KBTG.user;
+
 import com.example.KBTG.UserResponse;
-import lombok.ToString;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.*;
@@ -21,41 +19,27 @@ public class UserControllerTest {
     @Test
     public void success_get_user_id_1() {
         // Act
-        UserResponse2 response
-                = restTemplate.getForObject("/user/1", UserResponse2.class);
+        UserResponse response
+                = restTemplate.getForObject("/user/1", UserResponse.class);
         // Assert
         assertEquals(1, response.getId());
         assertEquals("somkiat", response.getName());
         assertEquals(30, response.getAge());
         // Quiz
-        UserResponse2 expected = new UserResponse2(1, "somkiat", 30){
-            @Override
-            public String toString() {
-                return String.format(response.getId() + ":" + response.getName()+":"+response.getAge());
-            }
-        };
+        UserResponse expected = new UserResponse(1, "somkiat", 30);
         assertEquals(expected, response);
     }
 
-}
-
-class UserResponse2 extends com.example.KBTG.UserResponse {
-
-    public UserResponse2(int i, String somkiat, int i1) {
-    }
-
-    @Override
-    public boolean equals(Object o) {
-
-        // If the object is compared with itself then return true
-        if (o.toString() == this.toString()) {
-            return true;
-        }else{
-            return false;
+    @Test
+    public void not_found_id15() {
+        try {
+            // Act
+            UserResponse response
+                    = restTemplate.getForObject("/user/15", UserResponse.class);
+            fail();
+        }catch (Exception e) {
+            assertEquals("User not found id=15", e.getMessage());
         }
     }
-        @Override
-    public String toString() {
-        return String.format(this.getId() + ":" + this.getName()+":"+this.getAge());
-    }
+
 }
